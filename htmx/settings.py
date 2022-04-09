@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'django_extensions',
     'project',
+    'cities',
 
 ]
 

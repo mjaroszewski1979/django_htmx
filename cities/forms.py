@@ -1,8 +1,8 @@
 from django import forms
-from models import City
+from .models import City
 
 
-class CityForm(forms.Form):
+class CityForm(forms.ModelForm):
     class Meta:
         model = City
         fields = ["name", "population"]

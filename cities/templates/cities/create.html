@@ -15,13 +15,13 @@
         <div class="form-group mb-3">
             <label>{{ form.name.label_tag }}</label>
             {{ form.name.errors }}
-            {% render_field form.name hx-post="/check-name/" hx-target="#name-err" hx-trigger="keyup" %}
+            {% render_field form.name hx-post="http://127.0.0.1:8000/cities/check-name/" hx-target="#name-err" hx-trigger="keyup" %}
             <div class="text-danger mt-2" id="name-err"></div>
         </div>
         <div>
             <label>{{ form.population.label_tag }}</label>
-            {{ form.password1.errors }}
-            {% render_field form.password1 class="form-control" %}
+            {{ form.population.errors }}
+            {% render_field form.population class="form-control" %}
         </div>
         
         <button type="submit" class="btn btn-success mt-2">Create</button>
