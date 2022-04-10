@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.http.response import HttpResponse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.urls import reverse_lazy
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Submit, Row, Column, Field
+from crispy_forms.bootstrap import InlineField, FormActions, StrictButton, Div, InlineRadios, PrependedText, PrependedAppendedText
 from .models import City
 from .forms import CityForm
 
@@ -27,10 +30,12 @@ class CityCreate(CreateView):
     template_name = 'cities/create.html'
     success_message = "New city was created successfully"
 
+
 def check_name(request):
     name = request.POST.get('name')
     if City.objects.filter(name=name).exists():
-        return HttpResponse("This name already exists")
+        return HttpResponse("<div id='name-err' class='error'>This name already exists</div>")
     else:
-        return HttpResponse("This name is available")
+        return HttpResponse("<div id='name-err' class='success'>This name is available</div>")
+
 
