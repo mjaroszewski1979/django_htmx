@@ -61,3 +61,17 @@ def delete_film(request, id):
     data.delete()
     films = request.user.films.all()
     return render(request, 'partials/film_list.html', {'films':films})
+
+@login_required
+def search_film(request):
+    search_text = request.POST.get('search')
+
+    user_films = request.user.films.all()
+    results = Film.objects.filter(name__icontains=search_text).exclude(
+        name__in=user_films.values_list('name', flat=True)
+    )
+    context = {"results": results}
+    return render(request, 'partials/search_results.html', context)
+
+def clear(request):
+    return HttpResponse("")

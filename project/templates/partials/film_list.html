@@ -4,7 +4,7 @@
     {% if messages %}
     <ul class="messages" hx-get="{% url 'clear' %}" hx-trigger="load delay:3s">
         {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
         {% endfor %}
     </ul>
     {% endif %}
@@ -33,3 +33,12 @@
     {% include 'partials/search.html' %}
 </section>
 </div>
+
+{% if request.method == 'POST' %}
+<input type="text"
+    hx-swap-oob="true"
+    id="filmname-input"
+    name="film_name" 
+    class="form-control-sm mr-2" 
+    placeholder="Enter a film" />
+{% endif %}
