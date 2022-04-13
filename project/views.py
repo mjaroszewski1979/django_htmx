@@ -7,9 +7,9 @@ from django.http import HttpResponse
 from django.views.generic import FormView, TemplateView
 from django.views.generic.list import ListView
 from django.views.decorators.http import require_http_methods
-from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 
 from .forms import RegisterForm
 from .models import Film
@@ -49,9 +49,10 @@ def check_username(request):
 @login_required
 def add_film(request):
     film_name = request.POST.get('film_name')
-    film = Film.objects.create(name=film_name)
+    film = Film.objects.get_or_create(name=film_name)[0]
     request.user.films.add(film)
     films = request.user.films.all()
+    messages.success(request, f"Added {film_name} to list of films")
     return render(request, 'partials/film_list.html', {'films':films})
 
 @login_required
