@@ -15,7 +15,8 @@ hmtx_views = [
     path('add-film/', views.add_film, name='add_film'),
     path('delete-film/<int:id>/', views.delete_film, name='delete_film'),
     path('search-film/', views.search_film, name='search_film'),
-    path('clear/', views.clear, name='clear')
+    path('clear/', views.clear, name='clear'),
+    path('sort/', views.sort, name='sort'),
 ]
 
 
