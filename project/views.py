@@ -1,5 +1,5 @@
 from django.http.response import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from django.contrib.auth import get_user_model
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
@@ -75,6 +75,12 @@ def search_film(request):
     context = {"results": results}
     return render(request, 'partials/search_results.html', context)
 
+@login_required
+def detail(request, id):
+    user_film = get_object_or_404(UserFilms, id=id)
+    context = {"user_film": user_film}
+    return render(request, 'partials/film_detail.html', context)
+
 def clear(request):
     return HttpResponse("")
 
@@ -87,3 +93,5 @@ def sort(request):
         user_film.save()
         films.append(user_film)
     return render(request, 'partials/film_list.html', {'films': films})
+
+
