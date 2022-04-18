@@ -81,6 +81,21 @@ def detail(request, id):
     context = {"user_film": user_film}
     return render(request, 'partials/film_detail.html', context)
 
+@login_required
+def films_partial(request):
+    films = UserFilms.objects.filter(user=request.user)
+    return render(request, 'partials/film_list.html', {'films': films})
+
+@login_required
+def upload_photo(request, id):
+    user_film = get_object_or_404(UserFilms, id=id)
+    photo = request.FILES.get('photo')
+    user_film.film.photo.save(photo.name, photo)
+    context = {"user_film": user_film}
+    return render(request, 'partials/film_detail.html', context)
+
+
+
 def clear(request):
     return HttpResponse("")
 

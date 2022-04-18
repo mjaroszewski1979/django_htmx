@@ -18,6 +18,8 @@ hmtx_views = [
     path('clear/', views.clear, name='clear'),
     path('sort/', views.sort, name='sort'),
     path('detail/<int:id>/', views.detail, name='detail'),
+    path('film-list-partial', views.films_partial, name='film_list_partial'),
+    path('upload-photo/<int:id>/', views.upload_photo, name='upload_photo'),
 ]
 
 
