@@ -33,9 +33,15 @@ class RegisterView(FormView):
 
 class FilmList(LoginRequiredMixin, ListView):
     template_name = 'films.html'
-    model = Film
+    model = UserFilms
+    paginate_by = 15
     context_object_name = 'films'
 
+    def get_template_names(self):
+        if self.request.htmx:
+            return 'partials/film_list_elements.html'
+        return 'films.html'
+        
     def get_queryset(self):
         return UserFilms.objects.filter(user=self.request.user)
 
