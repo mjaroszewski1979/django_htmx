@@ -43,7 +43,7 @@ class FilmList(LoginRequiredMixin, ListView):
         return 'films.html'
         
     def get_queryset(self):
-        return UserFilms.objects.filter(user=self.request.user)
+        return UserFilms.objects.prefetch_related('film').filter(user=self.request.user)
 
 def check_username(request):
     username = request.POST.get('username')
@@ -108,11 +108,17 @@ def clear(request):
 def sort(request):
     films_ids_order = request.POST.getlist('film_order')
     films = []
+    updated_films = []
+    user_films = UserFilms.objects.prefetch_related('film').filter(user=request.user)
     for index, film_id in enumerate(films_ids_order, start=1):
-        user_film = UserFilms.objects.get(id=film_id)
-        user_film.order = index
-        user_film.save()
+        user_film = next(x for x in user_films if x.id == int(film_id))
+
+        if user_film.order != index:
+            user_film.order = index
+            updated_films.append(user_film)
         films.append(user_film)
+
+        UserFilms.objects.bulk_update(updated_films, ['order'])
     return render(request, 'partials/film_list.html', {'films': films})
 
 
